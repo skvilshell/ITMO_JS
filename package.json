@@ -1,0 +1,28 @@
+{
+  "name": "itmo_js",
+  "version": "0.0.1",
+  "description": "Учебный проект для круса по JavaScript университета ИТМО",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "npx nodemon index.ts",
+    "start": "npx swc index.ts"
+  },
+  "keywords": [
+    "itmo",
+    "js",
+    "itmo_js",
+    "gosudarev",
+    "gossjs",
+    "artyom_shell",
+    "skvil_shell",
+    "looom"
+  ],
+  "author": "artyom_shell <artyomshell@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@swc/cli": "^0.5.0",
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.7",
+    "ts-node": "^10.9.2"
+  }
+}
