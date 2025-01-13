@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Фамилия Имя</title>
+  <meta charset="utf-8">
+</head>
+
+<body>
+  <h4>472665</h4>
+  <input type="number" value="4" id="n1">
+  <input type="number" value="4" id="n2">
+  <input type="number" value="4" id="n3">
+  <input type="number" value="4" id="n4">
+  <input type="number" value="4" id="n5">
+  <input type="number" value="4" id="n6">
+  <input type="text" value="" id="result1">
+  <input type="text" value="" id="result2">
+  <button id="bt">Выполнить задание</button>
+</body>
+
+<script>
+  // inputs
+  const inp1 = document.querySelector( '#n1' )
+  const inp2 = document.querySelector( '#n2' )
+  const inp3 = document.querySelector( '#n3' )
+  const inp4 = document.querySelector( '#n4' )
+  const inp5 = document.querySelector( '#n5' )
+  const inp6 = document.querySelector( '#n6' )
+  const result1 = document.querySelector( '#result1' )
+  const result2 = document.querySelector( '#result2' )
+  //btn
+  const btn = document.querySelector( '#bt' )
+
+  function newtonMethod( coefficients, initialGuess = 0, tolerance = 1e-7, maxIterations = 100 ) {
+    let x = initialGuess;
+    for ( let i = 0; i < maxIterations; i++ ) {
+      const fx = evaluatePolynomial( coefficients, x );
+      const fpx = evaluatePolynomialDerivative( coefficients, x );
+
+      if ( Math.abs( fx ) < tolerance ) {
+        return x; // Найден корень
+      }
+
+      if ( Math.abs( fpx ) < tolerance ) {
+        throw new Error( "Производная слишком мала, метод Ньютона не сходится." );
+      }
+
+      x = x - fx / fpx; // Обновление по методу Ньютона
+    }
+
+    throw new Error( "Превышено максимальное количество итераций." );
+  }
+
+  function findRoots( coefficients ) {
+    const roots = [];
+    let reducedCoefficients = [ ...coefficients ];
+
+    while ( reducedCoefficients.length > 2 ) {
+      let root = null;
+
+      // Попытки найти корень с разными начальными приближениями
+      for ( let attempt = 0; attempt < 10; attempt++ ) {
+        try {
+          root = newtonMethod( reducedCoefficients, Math.random() * 10 - 5 );
+          break;
+        } catch ( e ) {
+          continue; // Пробуем новое начальное приближение
+        }
+      }
+
+      if ( root === null ) {
+        throw new Error( "Не удалось найти корень после нескольких попыток." );
+      }
+
+      roots.push( root );
+
+      // Схема Горнера для уменьшения степени полинома
+      reducedCoefficients = deflatePolynomial( reducedCoefficients, root );
+    }
+
+    // Решаем оставшееся линейное уравнение
+    if ( reducedCoefficients.length === 2 ) {
+      roots.push( -reducedCoefficients[ 1 ] / reducedCoefficients[ 0 ] );
+    }
+
+    return roots;
+  }
+
+
+  btn.addEventListener( 'click', () => {
+    const [ a, b, c, d, e, f ] = [
+      Number( inp1.value ),
+      Number( inp2.value ),
+      Number( inp3.value ),
+      Number( inp4.value ),
+      Number( inp5.value ),
+      Number( inp6.value ),
+    ]
+
+    const x = findRoots( [ a, b, c, d, e, f ] )
+
+    result1.value = x.toString()
+    result2.value = y.toString()
+  } )
+</script>
+
+</html>
